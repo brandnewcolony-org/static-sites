@@ -11,7 +11,9 @@ sites/
     style.css
     script.js
     images/
-  placeholder.example.com/  # Scaffold for next site
+  lesleytaker.co.uk/        # Placeholder site
+    index.html
+  placeholder.example.com/  # Scaffold template
     index.html
 .github/
   workflows/
@@ -46,11 +48,15 @@ All in project `brandnewcolony-production`:
 
 | Resource | Name | Purpose |
 |----------|------|---------|
-| GCS Bucket | `uncommonthings-co-uk` | Site files |
+| GCS Bucket | `uncommonthings-co-uk` | uncommonthings.co.uk files |
+| GCS Bucket | `lesleytaker-co-uk` | lesleytaker.co.uk files |
 | Backend Bucket | `uncommonthings-backend` | CDN-enabled backend |
-| URL Map | `uncommonthings-lb` | Host-based routing |
-| SSL Cert | `uncommonthings-cert` | Managed cert for uncommonthings.co.uk + www |
-| Static IP | `uncommonthings-ip` | `34.128.154.225` |
+| Backend Bucket | `lesleytaker-backend` | CDN-enabled backend |
+| URL Map | `uncommonthings-lb` | Host-based routing (all sites) |
+| Cert Map | `uncommonthings-cert-map` | Certificate Manager map |
+| Certificate | `uncommonthings-cert-cm` | Managed cert for uncommonthings.co.uk + www |
+| Certificate | `lesleytaker-cert` | Managed cert for lesleytaker.co.uk + www |
+| Static IP | `uncommonthings-ip` | `34.128.154.225` (shared) |
 | HTTPS Proxy | `uncommonthings-https-proxy` | TLS termination |
 | HTTP Proxy | `uncommonthings-http-proxy` | HTTP->HTTPS redirect |
 | Service Account | `static-sites-deployer` | GitHub Actions deploys |

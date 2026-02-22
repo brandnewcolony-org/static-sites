@@ -11,6 +11,7 @@ on:
 env:
   SITE_MAP: |
     uncommonthings.co.uk=uncommonthings-co-uk
+    lesleytaker.co.uk=lesleytaker-co-uk
 
 jobs:
   deploy:
