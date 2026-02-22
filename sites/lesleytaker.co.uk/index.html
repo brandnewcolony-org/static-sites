@@ -4,48 +4,504 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lesley Taker</title>
+  <meta name="description" content="Lesley Taker is a Liverpool-based freelance curator, writer, and creative producer specialising in digital art and art & technology.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --fg: #1a1a1a;
+      --fg-mid: #4a4a4a;
+      --fg-light: #888;
+      --bg: #faf9f7;
+      --bg-alt: #f0efec;
+      --accent: #072AC8;
+      --pad: clamp(24px, 5vw, 80px);
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Georgia', 'Times New Roman', serif;
-      min-height: 100vh;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--fg);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ===== HERO ===== */
+
+    .hero {
+      padding: clamp(80px, 12vh, 160px) var(--pad) clamp(48px, 6vh, 72px);
       display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #faf9f7;
-      color: #2a2a2a;
+      align-items: flex-start;
+      gap: clamp(32px, 4vw, 56px);
     }
-    .container {
-      text-align: center;
-      padding: 2rem;
+
+    .hero-text {
+      flex: 1;
     }
-    h1 {
-      font-size: clamp(28px, 5vw, 56px);
+
+    .hero h1 {
+      font-size: clamp(40px, 5.5vw, 72px);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -2.5px;
+      margin-bottom: clamp(20px, 3vh, 32px);
+    }
+
+    .hero-intro {
+      font-size: clamp(16px, 1.3vw, 20px);
       font-weight: 400;
-      letter-spacing: 0.08em;
+      line-height: 1.5;
+      letter-spacing: -0.3px;
+      color: var(--fg);
+      max-width: 440px;
+    }
+
+    .hero-intro .muted {
+      color: var(--fg-light);
+    }
+
+    .hero-photo {
+      flex-shrink: 0;
+      width: clamp(140px, 18vw, 220px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 15%;
+      display: block;
+    }
+
+    /* ===== SECTIONS ===== */
+
+    .section {
+      padding: clamp(48px, 7vh, 88px) var(--pad);
+    }
+
+    .section--alt {
+      background: var(--bg-alt);
+    }
+
+    .section-label {
+      font-size: clamp(11px, 0.85vw, 12px);
+      font-weight: 600;
       text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-    .divider {
-      width: 40px;
-      height: 1px;
-      background: #2a2a2a;
-      margin: 0 auto 1.5rem;
-    }
-    p {
-      font-size: clamp(14px, 2vw, 18px);
-      font-weight: 300;
       letter-spacing: 0.12em;
+      color: var(--fg-light);
+      margin-bottom: clamp(20px, 3vh, 32px);
+    }
+
+    /* ===== ABOUT ===== */
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: clamp(32px, 4vw, 64px);
+      max-width: 900px;
+    }
+
+    .about-text {
+      font-size: clamp(15px, 1.15vw, 17px);
+      font-weight: 400;
+      line-height: 1.6;
+      letter-spacing: -0.2px;
+      color: var(--fg);
+    }
+
+    .about-text p + p {
+      margin-top: 1em;
+    }
+
+    .about-aside {
+      padding-top: 4px;
+    }
+
+    .aside-label {
+      font-size: clamp(11px, 0.85vw, 12px);
+      font-weight: 600;
       text-transform: uppercase;
-      color: #888;
+      letter-spacing: 0.12em;
+      color: var(--fg-light);
+      margin-bottom: 10px;
+    }
+
+    .aside-label + .aside-label {
+      margin-top: 24px;
+    }
+
+    .tag-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+
+    .tag-list li {
+      font-size: clamp(12px, 0.95vw, 14px);
+      font-weight: 500;
+      letter-spacing: -0.2px;
+      color: var(--fg-mid);
+      background: var(--bg);
+      border: 1px solid #ddd;
+      border-radius: 100px;
+      padding: 5px 14px;
+    }
+
+    .section--alt .tag-list li {
+      background: var(--bg-alt);
+    }
+
+    /* ===== WORK GRID ===== */
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(24px, 3vw, 40px);
+      max-width: 900px;
+    }
+
+    .work-block {
+      padding: clamp(20px, 2.5vw, 32px);
+      background: var(--bg);
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .section:not(.section--alt) .work-block {
+      background: var(--bg-alt);
+    }
+
+    .work-block h3 {
+      font-size: clamp(16px, 1.3vw, 20px);
+      font-weight: 600;
+      letter-spacing: -0.4px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+
+    .work-block .meta {
+      font-size: clamp(11px, 0.9vw, 13px);
+      font-weight: 500;
+      color: var(--fg-light);
+      letter-spacing: -0.1px;
+      margin-bottom: 12px;
+    }
+
+    .work-block p {
+      font-size: clamp(13px, 1.05vw, 15px);
+      font-weight: 400;
+      line-height: 1.55;
+      letter-spacing: -0.15px;
+      color: var(--fg-mid);
+    }
+
+    /* ===== TIMELINE ===== */
+
+    .timeline {
+      list-style: none;
+      max-width: 600px;
+    }
+
+    .timeline li {
+      display: grid;
+      grid-template-columns: clamp(72px, 10vw, 110px) 1fr;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      font-size: clamp(14px, 1.05vw, 16px);
+      font-weight: 400;
+      line-height: 1.45;
+      letter-spacing: -0.2px;
+    }
+
+    .timeline li:first-child {
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .timeline .date {
+      font-size: clamp(12px, 0.9vw, 13px);
+      font-weight: 500;
+      color: var(--fg-light);
+      padding-top: 2px;
+      white-space: nowrap;
+    }
+
+    .timeline .org {
+      color: var(--fg-light);
+    }
+
+    /* ===== PUBLICATIONS ===== */
+
+    .pub-list {
+      list-style: none;
+      max-width: 600px;
+    }
+
+    .pub-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      font-size: clamp(14px, 1.05vw, 16px);
+      font-weight: 400;
+      line-height: 1.45;
+      letter-spacing: -0.2px;
+    }
+
+    .pub-list li:first-child {
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .pub-list em {
+      font-style: italic;
+      font-weight: 500;
+      color: var(--fg);
+    }
+
+    .pub-list .publisher {
+      color: var(--fg-light);
+    }
+
+    /* ===== EDUCATION ===== */
+
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(16px, 2vw, 32px);
+      max-width: 600px;
+    }
+
+    .edu-item {
+      font-size: clamp(14px, 1.05vw, 16px);
+      font-weight: 400;
+      line-height: 1.45;
+      letter-spacing: -0.2px;
+    }
+
+    .edu-item .degree {
+      font-weight: 500;
+    }
+
+    .edu-item .school {
+      color: var(--fg-light);
+      font-size: clamp(12px, 0.9vw, 14px);
+      margin-top: 2px;
+    }
+
+    /* ===== CONTACT ===== */
+
+    .contact {
+      padding: clamp(48px, 7vh, 88px) var(--pad) clamp(60px, 10vh, 120px);
+    }
+
+    .contact-label {
+      font-size: clamp(15px, 1.2vw, 17px);
+      font-weight: 400;
+      color: var(--fg-light);
+      margin-bottom: 12px;
+      letter-spacing: -0.2px;
+    }
+
+    .contact-email {
+      display: inline-block;
+      font-size: clamp(22px, 3vw, 42px);
+      font-weight: 700;
+      letter-spacing: -1.2px;
+      line-height: 1.1;
+      color: var(--accent);
+      transition: opacity 0.3s;
+    }
+
+    .contact-email:hover {
+      text-decoration: none;
+      opacity: 0.7;
+    }
+
+    .contact-links {
+      margin-top: 16px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .contact-links a {
+      font-size: clamp(14px, 1.05vw, 16px);
+      font-weight: 500;
+      color: var(--fg-mid);
+      letter-spacing: -0.2px;
+    }
+
+    .contact-links a:hover {
+      color: var(--accent);
+    }
+
+    /* ===== RESPONSIVE ===== */
+
+    @media (max-width: 720px) {
+      .hero {
+        flex-direction: column-reverse;
+        gap: 24px;
+        padding-top: clamp(48px, 8vh, 80px);
+      }
+
+      .hero-photo {
+        width: 100px;
+        align-self: flex-start;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .work-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .edu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline li {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Lesley Taker</h1>
-    <div class="divider"></div>
-    <p>Coming Soon</p>
+
+  <div class="hero">
+    <div class="hero-photo">
+      <img src="lesley.png" alt="Lesley Taker">
+    </div>
+    <div class="hero-text">
+      <h1>Lesley Taker</h1>
+      <p class="hero-intro">Curator, writer, and creative producer specialising in digital art and technology. <span class="muted">Liverpool, UK.</span></p>
+    </div>
   </div>
+
+  <div class="section">
+    <p class="section-label">About</p>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm a freelance curator, writer, and creative producer with over 15 years of experience across visual and digital art. I work with artists and organisations to create ambitious, welcoming exhibitions and programmes — from large-scale installations and moving image to sound art, immersive experiences, and artworks that intersect with XR and gaming.</p>
+        <p>I spent over a decade at FACT Liverpool, most recently designing and launching Studio/Lab — an artist-focused production space for digital creatives, supported by Bloomberg Philanthropies. Before that, I curated and produced exhibitions with artists including Agnes Varda, Wu Tsang, Ryoichi Kurokawa, and Shona Illingworth.</p>
+        <p>I'm passionate about how technology reshapes contemporary art — particularly around fluid identities, shifting truths, and unstable narratives. I'm committed to creating space for underserved voices, with a focus on inclusivity, access, and transparency.</p>
+      </div>
+      <div class="about-aside">
+        <p class="aside-label">Working with</p>
+        <ul class="tag-list">
+          <li>Exhibition Curation</li>
+          <li>Digital &amp; New Media Art</li>
+          <li>Artist Development</li>
+          <li>Arts Writing</li>
+          <li>Immersive &amp; XR</li>
+          <li>Access Producing</li>
+          <li>Residency Programmes</li>
+          <li>Fundraising</li>
+        </ul>
+        <p class="aside-label">Previously at</p>
+        <ul class="tag-list">
+          <li>FACT Liverpool</li>
+          <li>Bloomberg Philanthropies</li>
+          <li>The Bluecoat</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section section--alt">
+    <p class="section-label">Selected Work</p>
+    <div class="work-grid">
+      <div class="work-block">
+        <h3>Studio/Lab</h3>
+        <p class="meta">FACT Liverpool — 2022–2025</p>
+        <p>Designed, funded, and launched a brand new artist-focused production space for digital creatives. Secured investment from Bloomberg Philanthropies and Foyle Foundation. Built a membership community of over 50 artists with co-working, equipment, and development programmes.</p>
+      </div>
+      <div class="work-block">
+        <h3>Roleplay Reality</h3>
+        <p class="meta">FACT Liverpool — 2018</p>
+        <p>Curated an exhibition exploring the intersection of gaming, roleplay, and contemporary art. Part of the broader States of Play programme, examining how play and simulation shape our understanding of reality.</p>
+      </div>
+      <div class="work-block">
+        <h3>FACT Together</h3>
+        <p class="meta">FACT Liverpool — 2022</p>
+        <p>Revived and reimagined the artist residency programme, creating a pipeline from residency to exhibition. Focused on building longer-term production relationships with artists including Rae-Yen Song and Uma Breakdown.</p>
+      </div>
+      <div class="work-block">
+        <h3>Designing Desire</h3>
+        <p class="meta">FACT Liverpool — 2018</p>
+        <p>A lab-focused curatorial project examining how design and technology shape human desire, behaviour, and intimacy — bringing together artists working across installation, digital media, and research.</p>
+      </div>
+      <div class="work-block">
+        <h3>Access &amp; Mentoring</h3>
+        <p class="meta">Freelance — 2023–present</p>
+        <p>Supporting neurodivergent artists to access funding and produce work. Successfully supported multiple DYCP applications for Arts Council England, and providing ongoing mentoring for artists working in digital art, new media, and games.</p>
+      </div>
+      <div class="work-block">
+        <h3>Solo Commissions</h3>
+        <p class="meta">FACT Liverpool — 2015–2022</p>
+        <p>Produced and curated ambitious solo exhibitions with internationally recognised artists — including Agnes Varda's first-ever gallery exhibition, and major new commissions with Wu Tsang, Ryoichi Kurokawa, and Shona Illingworth.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Career</p>
+    <ul class="timeline">
+      <li><span class="date">2025–</span><span>Freelance Curator, Writer &amp; Arts Producer</span></li>
+      <li><span class="date">2023–</span><span>Arts Mentor &amp; Access Support Producer</span></li>
+      <li><span class="date">2022–2025</span><span>Studio/Lab Manager <span class="org">— FACT Liverpool</span></span></li>
+      <li><span class="date">2022–2025</span><span>Tech Fellow <span class="org">— Bloomberg Philanthropies × FACT</span></span></li>
+      <li><span class="date">2018–2022</span><span>Exhibitions Manager <span class="org">— FACT Liverpool</span></span></li>
+      <li><span class="date">2015–2018</span><span>Producer / Curator <span class="org">— FACT Liverpool</span></span></li>
+      <li><span class="date">2013–2015</span><span>Curatorial Co-ordinator <span class="org">— FACT Liverpool</span></span></li>
+      <li><span class="date">2010–2012</span><span>Information Assistant <span class="org">— The Bluecoat</span></span></li>
+      <li><span class="date">2010–2014</span><span>Freelance Writer <span class="org">— a-n, The Double Negative, Oxford University Journal</span></span></li>
+    </ul>
+  </div>
+
+  <div class="section section--alt">
+    <p class="section-label">Writing &amp; Publications</p>
+    <ul class="pub-list">
+      <li><em>Typemotion: Type as Image in Motion</em> <span class="publisher">— Hatje Cantz, 2015</span></li>
+      <li><em>What Urban Media Art Can Do: Why When Where and How?</em> <span class="publisher">— avedition, 2016</span></li>
+      <li>Curatorial writing, art criticism, and essays for a-n news, The Double Negative, Oxford University Journal, The Bluecoat, FACT, and various exhibition catalogues</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Education</p>
+    <div class="edu-grid">
+      <div class="edu-item">
+        <p class="degree">MA Contemporary Fiction &amp; Visual Arts</p>
+        <p class="school">University of Liverpool, 2010–2011</p>
+      </div>
+      <div class="edu-item">
+        <p class="degree">BA English Language &amp; Literature</p>
+        <p class="school">University of Liverpool, 2008–2010</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact">
+    <p class="contact-label">Get in touch</p>
+    <a href="mailto:lesleyanntaker@gmail.com" class="contact-email">lesleyanntaker@gmail.com</a>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/lesleytaker" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+
 </body>
 </html>
