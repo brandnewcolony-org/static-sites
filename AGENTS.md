@@ -1,49 +1,62 @@
-# Uncommon Things - Static Website
+# Static Sites — brandnewcolony-org
 
-## Overview
-Static website for **Uncommon Things**, a Liverpool-based creative studio led by curators and exhibition-makers specialising in digital art. Originally built on Readymag, this is a self-hosted static version.
+Multi-site monorepo for BNC static websites, deployed to GCP Cloud Storage via GitHub Actions.
 
-## Architecture
-Pure static site with zero build dependencies:
-- `index.html` — single-page layout with all content
-- `style.css` — full-width responsive styles, fluid typography via `clamp()`
-- `script.js` — carousel (drag/swipe/keyboard), scroll-triggered animations
-- `images/` — all assets downloaded from Readymag CDN
+## Repo Structure
 
-## Tech Stack
-- **HTML/CSS/JS** — vanilla, no frameworks or build tools
-- **Font** — Inter via Google Fonts (SIL Open Font License)
-- **Hosting** — Google Cloud Storage static site serving
-
-## Deployment
-Deployed to GCP Cloud Storage as a static website bucket, fronted by a Cloud CDN load balancer with SSL.
-
-- **Bucket**: `uncommonthings-co-uk` in `brandnewcolony-production` project
-- **Domain**: uncommonthings.co.uk (when DNS is pointed)
-
-To deploy manually:
-```bash
-gsutil -m rsync -r -d -x '\.git|AGENTS\.md' . gs://uncommonthings-co-uk/
+```
+sites/
+  uncommonthings.co.uk/     # Live site
+    index.html
+    style.css
+    script.js
+    images/
+  placeholder.example.com/  # Scaffold for next site
+    index.html
+.github/
+  workflows/
+    deploy.yml               # Auto-deploy on merge to main
+AGENTS.md
 ```
 
-## Content Sections
-1. Hero — blue banner with studio description and nav
-2. Exhibition Projects: Solo Artists — slideshow + description
-3. Exhibition Projects: Group Shows — slideshow + description
-4. Artist Development — slideshow + description
-5. Talking, Teaching & Writing — slideshow + description
-6. About Us — bios for Lesley Taker and Charlotte Horn
-7. Contact — email link
+## Adding a New Site
 
-## Carousel
-Custom-built, supports:
-- Click prev/next buttons
-- Drag/swipe (mouse + touch)
-- Keyboard arrows
-- Dot navigation
-- Wraps around at boundaries
+1. Create a directory under `sites/<domain>/` with at least an `index.html`
+2. Create a GCS bucket for it (e.g. `gsutil mb -l europe-west2 -b on gs://<bucket-name>/`)
+3. Make bucket public: `gsutil iam ch allUsers:objectViewer gs://<bucket-name>/`
+4. Configure static hosting: `gsutil web set -m index.html -e index.html gs://<bucket-name>/`
+5. Grant the deployer SA access: `gsutil iam ch serviceAccount:static-sites-deployer@brandnewcolony-production.iam.gserviceaccount.com:roles/storage.objectAdmin gs://<bucket-name>/`
+6. Add a mapping in `.github/workflows/deploy.yml` under `SITE_MAP`
+7. Add a backend bucket, host rule, and path matcher to the `uncommonthings-lb` URL map
+8. Add the domain to the SSL certificate or create a new one
+9. Point DNS A records to `34.128.154.225`
 
-## Notes
-- All dependencies are open source (Inter font: SIL OFL, everything else: vanilla)
-- Images are local — no external CDN dependencies at runtime except Google Fonts
-- The site is fully functional offline (minus the font, which falls back to system sans-serif)
+## Deployment
+
+Automatic on merge to `main`. The workflow detects which `sites/*/` directories changed and syncs only those to their mapped GCS buckets.
+
+Manual deploy for a single site:
+```bash
+gsutil -m rsync -r -d sites/uncommonthings.co.uk/ gs://uncommonthings-co-uk/
+```
+
+## GCP Infrastructure
+
+All in project `brandnewcolony-production`:
+
+| Resource | Name | Purpose |
+|----------|------|---------|
+| GCS Bucket | `uncommonthings-co-uk` | Site files |
+| Backend Bucket | `uncommonthings-backend` | CDN-enabled backend |
+| URL Map | `uncommonthings-lb` | Host-based routing |
+| SSL Cert | `uncommonthings-cert` | Managed cert for uncommonthings.co.uk + www |
+| Static IP | `uncommonthings-ip` | `34.128.154.225` |
+| HTTPS Proxy | `uncommonthings-https-proxy` | TLS termination |
+| HTTP Proxy | `uncommonthings-http-proxy` | HTTP->HTTPS redirect |
+| Service Account | `static-sites-deployer` | GitHub Actions deploys |
+
+## Tech Stack
+
+- Pure HTML/CSS/JS — no build step, no frameworks
+- Inter font via Google Fonts (SIL Open Font License)
+- All open source, zero proprietary dependencies

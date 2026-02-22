@@ -1,0 +1,56 @@
+name: Deploy Static Sites
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'sites/**'
+
+# Site directory name -> GCS bucket name.
+# Add new sites here as: SITE_DIR: bucket-name
+env:
+  SITE_MAP: |
+    uncommonthings.co.uk=uncommonthings-co-uk
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Detect changed sites and deploy
+        run: |
+          CHANGED_DIRS=$(git diff --name-only HEAD~1 HEAD -- sites/ \
+            | cut -d'/' -f2 \
+            | sort -u)
+
+          if [ -z "$CHANGED_DIRS" ]; then
+            echo "No site changes detected."
+            exit 0
+          fi
+
+          echo "Changed sites: $CHANGED_DIRS"
+
+          while IFS= read -r SITE_DIR; do
+            BUCKET=$(echo "$SITE_MAP" | grep "^${SITE_DIR}=" | cut -d'=' -f2 | tr -d '[:space:]')
+
+            if [ -z "$BUCKET" ]; then
+              echo "⚠ No bucket mapping for '$SITE_DIR', skipping."
+              continue
+            fi
+
+            echo "Deploying $SITE_DIR -> gs://$BUCKET/"
+            gsutil -m rsync -r -d "sites/$SITE_DIR/" "gs://$BUCKET/"
+          done <<< "$CHANGED_DIRS"
