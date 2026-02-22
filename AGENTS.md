@@ -7,14 +7,19 @@ Multi-site monorepo for BNC static websites, deployed to GCP Cloud Storage via G
 ```
 sites/
   uncommonthings.co.uk/     # Live site
-    index.html
-    style.css
-    script.js
-    images/
   lesleytaker.co.uk/        # Placeholder site
-    index.html
   placeholder.example.com/  # Scaffold template
-    index.html
+infra/
+  terragrunt.hcl             # Root Terragrunt config
+  modules/
+    static-sites/            # Terraform module (all infra)
+  gcp/
+    prod/
+      env.hcl                # Environment settings
+      static-sites/
+        terragrunt.hcl       # Site definitions and Cloudflare zone IDs
+  scripts/
+    import.sh                # One-time import script (already run)
 .github/
   workflows/
     deploy.yml               # Auto-deploy on merge to main
@@ -23,15 +28,22 @@ AGENTS.md
 
 ## Adding a New Site
 
-1. Create a directory under `sites/<domain>/` with at least an `index.html`
-2. Create a GCS bucket for it (e.g. `gsutil mb -l europe-west2 -b on gs://<bucket-name>/`)
-3. Make bucket public: `gsutil iam ch allUsers:objectViewer gs://<bucket-name>/`
-4. Configure static hosting: `gsutil web set -m index.html -e index.html gs://<bucket-name>/`
-5. Grant the deployer SA access: `gsutil iam ch serviceAccount:static-sites-deployer@brandnewcolony-production.iam.gserviceaccount.com:roles/storage.objectAdmin gs://<bucket-name>/`
-6. Add a mapping in `.github/workflows/deploy.yml` under `SITE_MAP`
-7. Add a backend bucket, host rule, and path matcher to the `uncommonthings-lb` URL map
-8. Add the domain to the SSL certificate or create a new one
-9. Point DNS A records to `34.128.154.225`
+1. Add a site entry to `infra/gcp/prod/static-sites/terragrunt.hcl` under `sites`
+2. Add the Cloudflare zone ID for the new domain
+3. Add a mapping in `.github/workflows/deploy.yml` under `SITE_MAP`
+4. Create a directory under `sites/<domain>/` with at least an `index.html`
+5. Run `terragrunt apply` from `infra/gcp/prod/static-sites/`
+6. Wait for the SSL cert to provision (~5-10 min)
+
+The Terragrunt module handles: GCS bucket, backend bucket, CDN, URL map
+routing, Certificate Manager DNS authorization, SSL cert, cert map entries,
+Cloudflare A records, and ACME challenge CNAMEs.
+
+Required env vars for `terragrunt` commands:
+```bash
+export CLOUDFLARE_API_TOKEN="..."
+export GOOGLE_OAUTH_ACCESS_TOKEN=$(gcloud auth print-access-token)
+```
 
 ## Deployment
 
@@ -60,6 +72,17 @@ All in project `brandnewcolony-production`:
 | HTTPS Proxy | `uncommonthings-https-proxy` | TLS termination |
 | HTTP Proxy | `uncommonthings-http-proxy` | HTTP->HTTPS redirect |
 | Service Account | `static-sites-deployer` | GitHub Actions deploys |
+
+## Infrastructure as Code
+
+All infrastructure is managed via Terragrunt/Terraform in `infra/`.
+State is stored in `gs://brandnewcolony-production-terraform-state/gcp/prod/static-sites/`.
+
+The Terraform module at `infra/modules/static-sites/` uses a `sites` map
+variable to create per-site resources via `for_each`. Shared resources
+(load balancer, static IP, cert map, service account) are created once.
+
+Providers: `hashicorp/google ~> 5.0`, `cloudflare/cloudflare ~> 4.0`
 
 ## Tech Stack
 
