@@ -6,8 +6,6 @@ on:
     paths:
       - 'sites/**'
 
-# Site directory name -> GCS bucket name.
-# Add new sites here as: SITE_DIR: bucket-name
 env:
   SITE_MAP: |
     uncommonthings.co.uk=uncommonthings-co-uk
@@ -24,14 +22,14 @@ jobs:
         with:
           fetch-depth: 2
 
-      - id: auth
-        uses: google-github-actions/auth@v2
+      - uses: actions/setup-node@v4
         with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-
-      - uses: google-github-actions/setup-gcloud@v2
+          node-version: '20'
 
       - name: Detect changed sites and deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           CHANGED_DIRS=$(git diff --name-only HEAD~1 HEAD -- sites/ \
             | cut -d'/' -f2 \
@@ -45,13 +43,16 @@ jobs:
           echo "Changed sites: $CHANGED_DIRS"
 
           while IFS= read -r SITE_DIR; do
-            BUCKET=$(echo "$SITE_MAP" | grep "^${SITE_DIR}=" | cut -d'=' -f2 | tr -d '[:space:]')
+            PROJECT=$(echo "$SITE_MAP" | grep "^${SITE_DIR}=" | cut -d'=' -f2 | tr -d '[:space:]')
 
-            if [ -z "$BUCKET" ]; then
-              echo "⚠ No bucket mapping for '$SITE_DIR', skipping."
+            if [ -z "$PROJECT" ]; then
+              echo "No Pages project mapping for '$SITE_DIR', skipping."
               continue
             fi
 
-            echo "Deploying $SITE_DIR -> gs://$BUCKET/"
-            gsutil -m rsync -r -d "sites/$SITE_DIR/" "gs://$BUCKET/"
+            echo "Deploying $SITE_DIR -> Cloudflare Pages ($PROJECT)"
+            npx wrangler pages deploy "sites/$SITE_DIR/" \
+              --project-name="$PROJECT" \
+              --branch=main \
+              --commit-dirty=true
           done <<< "$CHANGED_DIRS"
