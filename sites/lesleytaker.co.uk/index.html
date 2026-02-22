@@ -349,32 +349,153 @@
     /* ===== RESPONSIVE ===== */
 
     @media (max-width: 720px) {
+      :root {
+        --pad: 20px;
+      }
+
       .hero {
-        flex-direction: column-reverse;
-        gap: 24px;
-        padding-top: clamp(48px, 8vh, 80px);
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+        padding: 48px var(--pad) 36px;
       }
 
       .hero-photo {
-        width: 100px;
-        align-self: flex-start;
+        width: 80px;
+        min-width: 80px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+        letter-spacing: -1.5px;
+        margin-bottom: 10px;
+      }
+
+      .hero-intro {
+        font-size: 15px;
+        line-height: 1.45;
+      }
+
+      .section {
+        padding: 36px var(--pad);
+      }
+
+      .section-label {
+        font-size: 11px;
+        margin-bottom: 16px;
       }
 
       .about-grid {
         grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .about-text {
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .aside-label {
+        font-size: 11px;
+      }
+
+      .tag-list {
+        gap: 6px;
+        margin-bottom: 20px;
+      }
+
+      .tag-list li {
+        font-size: 13px;
+        padding: 6px 14px;
       }
 
       .work-grid {
         grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .work-block {
+        padding: 20px;
+      }
+
+      .work-block h3 {
+        font-size: 17px;
+      }
+
+      .work-block .meta {
+        font-size: 12px;
+        margin-bottom: 8px;
+      }
+
+      .work-block p {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .timeline li {
+        grid-template-columns: 76px 1fr;
+        gap: 10px;
+        padding: 10px 0;
+        font-size: 14px;
+      }
+
+      .timeline .date {
+        font-size: 12px;
+      }
+
+      .pub-list li {
+        font-size: 14px;
+        padding: 10px 0;
       }
 
       .edu-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
       }
 
-      .timeline li {
-        grid-template-columns: 1fr;
-        gap: 2px;
+      .edu-item {
+        font-size: 14px;
+      }
+
+      .edu-item .school {
+        font-size: 13px;
+      }
+
+      .contact {
+        padding: 36px var(--pad) 48px;
+      }
+
+      .contact-label {
+        font-size: 14px;
+      }
+
+      .contact-email {
+        font-size: 20px;
+        letter-spacing: -0.8px;
+        word-break: break-all;
+      }
+
+      .contact-links a {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .hero-photo {
+        width: 64px;
+        min-width: 64px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .hero-intro {
+        font-size: 14px;
+      }
+
+      .contact-email {
+        font-size: 18px;
       }
     }
   </style>
