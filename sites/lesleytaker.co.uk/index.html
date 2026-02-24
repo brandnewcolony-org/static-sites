@@ -227,6 +227,39 @@
       width: 100%;
       display: block;
     }
+    .writing-tag {
+      display: inline-block;
+      margin-top: clamp(14px, 2vh, 24px);
+      padding: clamp(10px, 1.2vw, 16px) clamp(16px, 2vw, 28px);
+      background: var(--gold-pale);
+      border: 3px solid var(--gold);
+      box-shadow: 5px 5px 0 var(--pink);
+      transform: rotate(-2.5deg);
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      z-index: 4;
+    }
+    .writing-tag:hover {
+      transform: rotate(0.5deg) scale(1.04);
+      box-shadow: 7px 7px 0 var(--lilac-deep);
+      text-decoration: none;
+    }
+    .writing-tag span {
+      font-size: clamp(18px, 2.2vw, 30px);
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      pointer-events: none;
+    }
+    .writing-tag .tag-arrow {
+      font-size: 0.7em;
+      margin-left: 6px;
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+    .writing-tag:hover .tag-arrow { transform: translateX(3px); }
     .intro-text {
       position: relative;
       z-index: 2;
@@ -443,6 +476,7 @@
         padding-right: 0;
       }
       .intro-img-main { box-shadow: 4px 4px 0 var(--lilac-deep); max-width: 280px; }
+      .writing-tag { margin-top: 12px; box-shadow: 4px 4px 0 var(--pink); }
 
       .img-strip { flex-wrap: wrap; }
       .img-strip-item:nth-child(1) { width: 45%; }
@@ -507,6 +541,9 @@
       <a target="_blank" rel="noopener" href="http://www.instagram.com/lesleytaker" aria-label="Instagram profile (opens in new tab)">
         <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 01-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 017.8 2m-.2 2A3.6 3.6 0 004 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 003.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5M12 7a5 5 0 110 10 5 5 0 010-10m0 2a3 3 0 100 6 3 3 0 000-6z"/></svg>
       </a>
+      <a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1bb71Vts0RZeoUw0__Iv5jB_sZyK2j59m/view?usp=sharing" aria-label="Download CV (opens in new tab)">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01V17h2.01l5.96-5.97-2.01-2.01L8 15.01zm7.55-6.59l1.01 1.01c.2.2.2.51 0 .71l-.98.98-2.01-2.01.98-.98c.2-.2.51-.2.71 0l.29.29z"/></svg>
+      </a>
     </div>
     <a href="#contact" class="header-cta" aria-label="Get in touch"><span>get in<br>touch<span class="cta-arrow" aria-hidden="true">&darr;</span></span></a>
     <div class="header-img">
@@ -520,6 +557,7 @@
       <div class="intro-img-main">
         <img src="lesley-outdoor.png" alt="Lesley standing on curved striped ground wearing a beanie hat, scarf and dark jacket, with trees and rooftops behind her">
       </div>
+      <a href="https://drive.google.com/drive/folders/1i_CGu1Kkyav13yA8fRqM0S0BffhIiJAn?usp=drive_link" target="_blank" rel="noopener" class="writing-tag" aria-label="Writing portfolio (opens in new tab)"><span>Writing<span class="tag-arrow" aria-hidden="true">&rarr;</span></span></a>
     </div>
     <div class="intro-text" style="position:relative;">
       <div class="dots" style="width:140px;height:180px;top:-20px;right:-30px;" aria-hidden="true"></div>
@@ -537,9 +575,6 @@
   </section>
 
   <section class="img-strip" aria-label="Photo gallery">
-    <div class="img-strip-item">
-      <img src="vr-install.png" alt="Gallery installation showing a cluster of white desks with computer monitors and VR headsets, bathed in red light from translucent plastic curtains">
-    </div>
     <div class="img-strip-item">
       <img src="gaming-zine.png" alt="Hand holding open a printed exhibition zine titled 'Why A Show About Gaming, Now?' with essay text and a video game screenshot">
     </div>
