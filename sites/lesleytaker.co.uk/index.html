@@ -722,10 +722,7 @@
     <div class="footer-content">
       <h2 class="footer-title">Contact</h2>
       <p>If you&rsquo;d like to work together on writing, a project, artist development or access support, get in touch below. You can also find me on <a target="_blank" rel="noopener" href="https://uk.linkedin.com/in/lesleytaker">LinkedIn</a> and <a target="_blank" rel="noopener" href="http://www.instagram.com/lesleytaker">Instagram</a>.</p>
-      <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="91e806d8-fade-46e9-86e9-494e39dd00a6">
-        <input type="hidden" name="subject" value="New message from lesleytaker.co.uk">
-        <input type="hidden" name="from_name" value="lesleytaker.co.uk contact form">
+      <form class="contact-form" id="contact-form">
         <div class="form-honeypot">
           <label>Leave blank</label>
           <input type="text" name="botcheck">
@@ -737,7 +734,42 @@
         <label for="contact-message">Message</label>
         <textarea id="contact-message" name="message" placeholder="What would you like to work on?" required></textarea>
         <button type="submit">Send &rarr;</button>
+        <p class="form-status" id="form-status" role="alert"></p>
       </form>
+      <script>
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+          e.preventDefault();
+          var btn = this.querySelector('button');
+          var status = document.getElementById('form-status');
+          btn.disabled = true;
+          btn.textContent = 'Sending\u2026';
+          status.textContent = '';
+          var data = new FormData(this);
+          data.append('access_key', '91e806d8-fade-46e9-86e9-494e39dd00a6');
+          data.append('subject', 'New message from lesleytaker.co.uk');
+          data.append('from_name', 'lesleytaker.co.uk contact form');
+          fetch('https://api.web3forms.com/submit', { method: 'POST', body: data })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+              if (d.success) {
+                status.textContent = 'Thanks! Message sent.';
+                status.style.color = 'var(--gold-text)';
+                e.target.reset();
+              } else {
+                status.textContent = 'Something went wrong \u2014 please try again.';
+                status.style.color = 'var(--pink-deep)';
+              }
+              btn.disabled = false;
+              btn.innerHTML = 'Send \u2192';
+            })
+            .catch(function() {
+              status.textContent = 'Something went wrong \u2014 please try again.';
+              status.style.color = 'var(--pink-deep)';
+              btn.disabled = false;
+              btn.innerHTML = 'Send \u2192';
+            });
+        });
+      </script>
     </div>
     <div class="footer-images">
       <div class="footer-img">
