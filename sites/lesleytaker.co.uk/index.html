@@ -475,6 +475,81 @@
       transform: rotate(1.2deg);
     }
 
+    /* ===== CONTACT FORM ===== */
+    .contact-form {
+      margin-top: clamp(16px, 2vh, 28px);
+    }
+    .contact-form label {
+      display: block;
+      font-size: clamp(11px, 0.9vw, 13px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold-text);
+      margin-bottom: 6px;
+    }
+    .contact-form input,
+    .contact-form textarea {
+      display: block;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(14px, 1.1vw, 16px);
+      font-weight: 400;
+      color: var(--fg);
+      background: var(--gold-pale);
+      border: 2px solid var(--gold);
+      padding: 10px 14px;
+      margin-bottom: clamp(14px, 2vh, 20px);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--fg);
+      box-shadow: 3px 3px 0 var(--lilac-deep);
+    }
+    .contact-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: var(--fg-light);
+    }
+    .contact-form button {
+      display: inline-block;
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(16px, 1.6vw, 22px);
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      background: var(--gold-pale);
+      border: 3px solid var(--gold);
+      padding: clamp(10px, 1.2vw, 16px) clamp(24px, 3vw, 40px);
+      box-shadow: 5px 5px 0 var(--pink);
+      transform: rotate(-1deg);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .contact-form button:hover {
+      transform: rotate(0.5deg) scale(1.03);
+      box-shadow: 7px 7px 0 var(--lilac-deep);
+      background: var(--lilac);
+      color: var(--fg);
+    }
+    .contact-form button:focus-visible {
+      outline: 3px solid var(--focus-ring);
+      outline-offset: 4px;
+    }
+    .form-honeypot { display: none !important; }
+    .form-status {
+      margin-top: 12px;
+      font-size: clamp(13px, 1vw, 15px);
+      font-weight: 600;
+      color: var(--gold-text);
+    }
+
     /* ===== DECORATIVE DOT PATTERN ===== */
     .dots {
       position: absolute;
@@ -552,7 +627,7 @@
   <header class="header" role="banner">
     <h1 aria-label="Lesley Taker">Lesley<br>Taker</h1>
     <div class="header-socials">
-      <a href="mailto:lesleyanntaker@gmail.com" aria-label="Email Lesley Taker">
+      <a href="#contact" aria-label="Contact Lesley Taker">
         <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
       </a>
       <a target="_blank" rel="noopener" href="https://uk.linkedin.com/in/lesleytaker" aria-label="LinkedIn profile (opens in new tab)">
@@ -646,9 +721,23 @@
   <footer id="contact" class="footer" role="contentinfo">
     <div class="footer-content">
       <h2 class="footer-title">Contact</h2>
-      <p>If you&rsquo;d like to work together on writing, a project, artist development or access support, please <a href="mailto:lesleyanntaker@gmail.com">get in touch</a>.</p>
-      <p>My <a target="_blank" rel="noopener" href="https://uk.linkedin.com/in/lesleytaker">LinkedIn is here</a>. I&rsquo;m also on <a target="_blank" rel="noopener" href="http://www.instagram.com/lesleytaker">Instagram</a> if you want to see wildly infrequent stories, mostly about Open Calls and artist opportunities</p>
-      <p class="sign-off" aria-hidden="true">&ndash;</p>
+      <p>If you&rsquo;d like to work together on writing, a project, artist development or access support, get in touch below. You can also find me on <a target="_blank" rel="noopener" href="https://uk.linkedin.com/in/lesleytaker">LinkedIn</a> and <a target="_blank" rel="noopener" href="http://www.instagram.com/lesleytaker">Instagram</a>.</p>
+      <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="91e806d8-fade-46e9-86e9-494e39dd00a6">
+        <input type="hidden" name="subject" value="New message from lesleytaker.co.uk">
+        <input type="hidden" name="from_name" value="lesleytaker.co.uk contact form">
+        <div class="form-honeypot">
+          <label>Leave blank</label>
+          <input type="text" name="botcheck">
+        </div>
+        <label for="contact-name">Name</label>
+        <input type="text" id="contact-name" name="name" placeholder="Your name" required>
+        <label for="contact-email">Email</label>
+        <input type="email" id="contact-email" name="email" placeholder="Your email" required>
+        <label for="contact-message">Message</label>
+        <textarea id="contact-message" name="message" placeholder="What would you like to work on?" required></textarea>
+        <button type="submit">Send &rarr;</button>
+      </form>
     </div>
     <div class="footer-images">
       <div class="footer-img">
